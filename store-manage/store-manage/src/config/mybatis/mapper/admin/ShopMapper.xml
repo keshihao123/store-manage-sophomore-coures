@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ischoolbar.programmer.dao.admin.ShopDao">
+	<!-- 门店插入操作 -->
+	<insert id="add" parameterType="com.ischoolbar.programmer.entity.admin.Shop">
+		insert into shop(id,sname,sphone,address,lal) values(null,#{sname},#{sphone},#{address},#{lal})
+	</insert>
+	
+	<!-- 门店编辑操作 -->
+	<update id="edit" parameterType="com.ischoolbar.programmer.entity.admin.Shop">
+		update shop set sname = #{sname},sphone = #{sphone},address = #{address},lal = #{lal} where id = #{id}
+	</update>
+	<!-- 门店信息搜索查询 -->
+	<select id="findList" parameterType="Map" resultType="com.ischoolbar.programmer.entity.admin.Shop">
+		select * from shop    
+		<if test="sname != null">
+			where sname like '%${sname}%' 
+		</if>
+		<if test="offset != null and pageSize != null">
+			limit #{offset},#{pageSize}
+		</if>
+	</select>
+	<!-- 模糊搜索总条数 -->
+	<select id="getTotal" parameterType="Map" resultType="Integer">
+		select count(*) from shop  
+		<if test="sname != null">
+			where sname like '%${sname}%' 
+		</if>
+	</select>
+	<!-- 删除门店信息 -->
+	<delete id="delete" parameterType="Integer">
+		delete from shop where id = #{value}
+	</delete>
+</mapper>
